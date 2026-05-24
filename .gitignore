@@ -1,0 +1,15 @@
+﻿/target
+**/target
+/roms/*
+/save_states/*
+/logs/*
+*.log
+*.ch8
+*.gb
+*.gba
+*.nds
+*.wbfs
+*.nsp
+*.xci
+*.elf
+.DS_Store
