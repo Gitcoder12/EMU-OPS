@@ -145,8 +145,7 @@ Known-good profiles can be automatically reused on future launches.
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/emu-ops.git
-
+git clone https://github.com/Gitcoder12/EMU-OPS.git
 cd emu-ops
 
 # Build emulator core
