@@ -1,4 +1,4 @@
-﻿use minifb::{Window, WindowOptions, Key};
+use minifb::{Window, WindowOptions, Key};
 use std::fs;
 use std::time::{Instant, Duration};
 use chip8_core::{Cpu, Memory, Graphics};
@@ -7,7 +7,6 @@ fn main() {
     let rom_path = "./roms/";
     let rom_file = format!("{}pong.ch8", rom_path);
     
-    // Try to load ROM – if not found, create a dummy file
     let rom_data = match fs::read(&rom_file) {
         Ok(data) => data,
         Err(_) => {
@@ -34,10 +33,26 @@ fn main() {
     let frame_duration = Duration::from_nanos(1_000_000_000 / 60);
     let mut last_frame = Instant::now();
 
+    // Keypad mapping (Chip-8 hex keys 0x0..0xF)
+    let mut keypad = [false; 16];
+
     while window.is_open() && !window.is_key_down(Key::Escape) {
+        // Update keypad state from keyboard
+        // Map PC keyboard to Chip-8 keys (typical layout)
+        let key_map = [
+            (Key::X, 0x0), (Key::Key1, 0x1), (Key::Key2, 0x2), (Key::Key3, 0x3),
+            (Key::Q, 0x4), (Key::W, 0x5), (Key::E, 0x6), (Key::A, 0x7),
+            (Key::S, 0x8), (Key::D, 0x9), (Key::Z, 0xA), (Key::C, 0xB),
+            (Key::Key4, 0xC), (Key::R, 0xD), (Key::F, 0xE), (Key::V, 0xF),
+        ];
+        for (key, chip_key) in key_map.iter() {
+            keypad[*chip_key] = window.is_key_down(*key);
+        }
+
+        // Emulate 10 instructions per frame
         for _ in 0..10 {
             cpu.fetch(&memory.ram);
-            cpu.execute(&mut memory.ram, &mut graphics.display);
+            cpu.execute(&mut memory.ram, &mut graphics.display, &keypad);
             cpu.tick();
         }
 
