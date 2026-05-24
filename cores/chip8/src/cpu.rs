@@ -1,4 +1,4 @@
-﻿use serde::{Serialize, Deserialize};
+use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Cpu {
@@ -38,7 +38,8 @@ impl Cpu {
         self.pc += 2;
     }
 
-    pub fn execute(&mut self, memory: &mut [u8; 4096], display: &mut [[bool; 64]; 32]) -> bool {
+    // Execute with keypad state
+    pub fn execute(&mut self, memory: &mut [u8; 4096], display: &mut [[bool; 64]; 32], keypad: &[bool; 16]) -> bool {
         let op = self.opcode;
         let x = ((op & 0x0F00) >> 8) as usize;
         let y = ((op & 0x00F0) >> 4) as usize;
@@ -129,13 +130,35 @@ impl Cpu {
                 }
             }
             0xE000 => match kk {
-                0x9E => { /* skip if key pressed – needs keyboard input */ }
-                0xA1 => { /* skip if key not pressed */ }
+                0x9E => { // Skip if key pressed
+                    if keypad[self.v[x] as usize] {
+                        self.pc += 2;
+                    }
+                }
+                0xA1 => { // Skip if key NOT pressed
+                    if !keypad[self.v[x] as usize] {
+                        self.pc += 2;
+                    }
+                }
                 _ => {}
             },
             0xF000 => match kk {
                 0x07 => self.v[x] = self.delay_timer,
-                0x0A => { /* wait for key – advanced */ }
+                0x0A => { // Wait for key press
+                    let mut pressed = None;
+                    for i in 0..16 {
+                        if keypad[i] {
+                            pressed = Some(i);
+                            break;
+                        }
+                    }
+                    if let Some(key) = pressed {
+                        self.v[x] = key as u8;
+                    } else {
+                        // No key pressed – repeat this instruction
+                        self.pc -= 2;
+                    }
+                }
                 0x15 => self.delay_timer = self.v[x],
                 0x18 => self.sound_timer = self.v[x],
                 0x1E => self.i += self.v[x] as u16,
