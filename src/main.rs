@@ -52,7 +52,9 @@ fn main() {
         // Emulate 10 instructions per frame
         for _ in 0..10 {
             cpu.fetch(&memory.ram);
-            cpu.execute(&mut memory.ram, &mut graphics.display, &keypad);
+            if cpu.execute(&mut memory.ram, &mut graphics.display, &keypad) {
+                graphics.needs_render = true;
+            }
             cpu.tick();
         }
 

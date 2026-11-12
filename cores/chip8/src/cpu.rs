@@ -46,6 +46,7 @@ impl Cpu {
         let n = (op & 0x000F) as u8;
         let kk = (op & 0x00FF) as u8;
         let nnn = op & 0x0FFF;
+        let mut needs_render = false;
 
         match op & 0xF000 {
             0x0000 => match op {
@@ -55,6 +56,7 @@ impl Cpu {
                             *pixel = false;
                         }
                     }
+                    needs_render = true;
                 }
                 0x00EE => {
                     self.sp -= 1;
@@ -128,6 +130,7 @@ impl Cpu {
                         }
                     }
                 }
+                needs_render = true;
             }
             0xE000 => match kk {
                 0x9E => { // Skip if key pressed
@@ -183,6 +186,6 @@ impl Cpu {
             },
             _ => {}
         }
-        true
+        needs_render
     }
 }
