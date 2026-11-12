@@ -1,6 +1,4 @@
-﻿use serde::{Serialize, Deserialize};
-
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Clone)]
 pub struct Graphics {
     pub display: [[bool; 64]; 32],
     pub needs_render: bool,

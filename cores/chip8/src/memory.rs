@@ -1,6 +1,4 @@
-﻿use serde::{Serialize, Deserialize};
-
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Clone)]
 pub struct Memory {
     pub ram: [u8; 4096],
 }
