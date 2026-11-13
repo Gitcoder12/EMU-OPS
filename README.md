@@ -1,87 +1,229 @@
-# EMU-OPS
+# 🎮 EMU OPS — AI-Powered Self-Healing Emulator
 
-**An experimental CHIP-8 emulator prototype with a Rust CPU, memory, graphics core, and desktop window.**
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Status](https://img.shields.io/badge/status-alpha-orange.svg)]()
+[![Built With](https://img.shields.io/badge/built%20with-Rust%20%7C%20Python-black.svg)]()
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/Rust-2021-orange.svg)](https://www.rust-lang.org/)
+> **EMU OPS** is an experimental emulator platform that automatically detects crashes, instability, and performance regressions — then attempts to recover and optimize itself in real time using AI-assisted tuning.
 
-## Current Implementation
+Instead of forcing users to manually tweak emulator settings, EMU OPS continuously monitors runtime behavior, rolls back to stable states when failures occur, and applies adaptive performance fixes dynamically.
 
-The runnable application currently includes:
+---
 
-- A CHIP-8 core with CPU registers, stack, timers, memory, and opcode execution.
-- 4 KB memory with the standard CHIP-8 font set loaded at startup.
-- A 64 × 32 monochrome display buffer.
-- Keyboard input mapping for the CHIP-8 hexadecimal keypad.
-- A `minifb` desktop window for displaying the emulator output.
+# ✨ Features
 
-## Quick Start
+## 🧠 AI-Assisted Runtime Optimization
 
-Install the stable Rust toolchain, then clone and build the repository:
+EMU OPS analyzes telemetry data and dynamically adjusts:
+
+- JIT compiler settings
+- Thread affinity
+- CPU timing behavior
+- Resolution scaling
+- Speed hacks
+- Frame pacing
+- Cache strategies
+
+---
+
+## 🔄 Automatic Crash Recovery
+
+When instability or crashes are detected:
+
+1. Runtime state is analyzed
+2. Emulator restores the last stable save state
+3. Recovery profile is applied automatically
+4. Failed configurations are logged for learning
+
+---
+
+## 📊 Real-Time Telemetry Monitoring
+
+Continuously tracks:
+
+- FPS & frame pacing
+- CPU/GPU usage
+- Memory pressure
+- Cache misses
+- Audio latency
+- Thermal/performance spikes
+
+---
+
+## 🧬 Self-Healing Configuration System
+
+EMU OPS builds a knowledge base of successful fixes per game.
+
+Over time it learns:
+- Which optimizations improve stability
+- Which settings reduce stutter
+- Which configurations cause regressions
+
+Known-good profiles can be automatically reused on future launches.
+
+---
+
+# 🏗️ Architecture Overview
+
+```text
+          ┌─────────────────────┐
+          │      Game ROM       │
+          └──────────┬──────────┘
+                     │
+                     ▼
+          ┌─────────────────────┐
+          │   Emulator Core     │
+          │  (Rust / C++ Core)  │
+          └──────────┬──────────┘
+                     │
+              Telemetry Stream
+                     │
+                     ▼
+          ┌─────────────────────┐
+          │     AI Agent        │
+          │  (Python + LLM)     │
+          └──────────┬──────────┘
+                     │
+          Optimization Decisions
+                     │
+                     ▼
+          ┌─────────────────────┐
+          │ Config / Recovery   │
+          │      Manager        │
+          └─────────────────────┘
+```
+
+---
+
+# 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Emulator Core | Rust / C++ |
+| AI Agent | Python |
+| LLM Support | Llama 3 / OpenAI API |
+| Config System | JSON / YAML |
+| Telemetry Engine | Custom runtime profiler |
+| State Recovery | Rolling save-state snapshots |
+
+---
+
+# 🚀 Roadmap
+
+## Phase 1 — Foundation
+- [x] Chip-8 prototype
+- [ ] Save-state system
+- [ ] Telemetry collection
+- [ ] Crash detection
+
+## Phase 2 — Adaptive Recovery
+- [ ] Runtime tuning engine
+- [ ] AI-generated optimization profiles
+- [ ] Automatic rollback logic
+- [ ] Stability scoring
+
+## Phase 3 — Advanced Learning
+- [ ] Persistent game profiles
+- [ ] Reinforcement learning experiments
+- [ ] Cross-game optimization patterns
+- [ ] Distributed telemetry dataset
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+- Rust (stable)
+- Python 3.10+
+- Cargo
+- Optional: Ollama for local inference
+
+---
+
+## Installation
 
 ```bash
+# Clone repository
 git clone https://github.com/Gitcoder12/EMU-OPS.git
-cd EMU-OPS
-cargo check --workspace
+cd emu-ops
+
+# Build emulator core
+cargo build --release
+
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+---
+
+# ▶️ Running EMU OPS
+
+```bash
+# Start emulator
 cargo run --release
+
+# Launch AI tuning agent
+python agent/main.py
 ```
 
-A graphical desktop session is required by the `minifb` window.
+---
 
-## ROM Handling
-
-The emulator looks for a CHIP-8 ROM at:
+# 📁 Project Structure
 
 ```text
-roms/pong.ch8
+emu-ops/
+│
+├── core/               # Emulator core
+├── ai-agent/           # AI tuning system
+├── telemetry/          # Runtime metrics
+├── configs/            # Game profiles
+├── states/             # Save-state snapshots
+├── scripts/            # Utilities
+└── docs/               # Documentation
 ```
 
-No copyrighted ROMs are included. If the file is missing, the current launcher creates a zero-filled placeholder file so the application can start; that placeholder is not a playable game. To run an actual program, place a CHIP-8 ROM that you are legally entitled to use at the expected path.
+---
 
-## Keyboard Mapping
+# 🔥 Vision
 
-| CHIP-8 key | PC key |
-|---|---|
-| 0 | X |
-| 1–3 | 1–3 |
-| 4–6 | Q, W, E |
-| 7–9 | A, S, D |
-| A–B | Z, C |
-| C–F | 4, R, F, V |
+Most emulators rely on manual tweaking, community fixes, and trial-and-error configuration.
 
-Press **Esc** to close the window.
+EMU OPS explores a different direction:
 
-## Project Structure
+> An emulator that actively diagnoses itself, adapts to failures, and improves performance automatically over time.
 
-```text
-EMU-OPS/
-├── Cargo.toml
-├── src/
-│   ├── main.rs             # Desktop emulator loop and keyboard mapping
-│   └── features.rs         # Experimental recovery-feature draft (not wired into runtime)
-└── cores/
-    └── chip8/
-        ├── Cargo.toml
-        └── src/
-            ├── lib.rs
-            ├── cpu.rs
-            ├── memory.rs
-            ├── graphics.rs
-            └── features.rs # Experimental module draft; not exported by the core
-```
+The long-term goal is a fully adaptive emulation platform capable of:
+- self-optimization
+- intelligent recovery
+- automatic compatibility tuning
+- AI-assisted preservation of legacy software
 
-## Experimental Work
+---
 
-The repository also contains draft save-state, rollback, and runtime-reliability code. Those modules are not currently exported by the CHIP-8 core or connected to the running emulator loop. The current build does **not** provide AI tuning, automated crash recovery, persistent game profiles, or a telemetry dashboard.
+# ⚠️ Disclaimer
 
-## Current Limitations
+EMU OPS is an experimental research project focused on emulator reliability and adaptive systems.
 
-- CHIP-8 compatibility is incomplete; this is a development prototype, not a validated emulator.
-- No game ROM is bundled.
-- The placeholder ROM created by the launcher contains only zero bytes.
-- Save-state and self-recovery experiments are not integrated into the executable.
-- The desktop frontend requires a graphical session.
+It does **not** include copyrighted BIOS files or game ROMs.
 
-## License
+Users are responsible for legally obtaining software they run with the emulator.
 
-MIT. See [LICENSE](LICENSE).
+---
+
+# 📜 License
+
+Licensed under the MIT License.
+
+
+---
+
+## AI-maintained project notes (secondary — 2026-11-13)
+
+This section supplements the maintainer-authored README above. The original text has been restored verbatim from Git-history baseline `9d45517ea8be8917f7875c163f92d421f7f29c07`; this addendum does not replace or certify the original claims.
+
+- The current source tree, runtime data and tests are the implementation source of truth. Roadmap items, draft PRs and AI-generated descriptions are not shipped features by themselves.
+- Preserve real and maintainer-provided data. Never silently substitute generated or placeholder data. Clearly label and isolate synthetic fixtures.
+- Mark unverified sources, identifiers, metrics, benchmark results and external claims as unknown/unverified rather than guessing.
+- Verify setup, execution, tests and public claims against the exact current commit before using this repository in a job, research or academic application.
+- See [MODEL_AUDIT_ROUTER.md](MODEL_AUDIT_ROUTER.md) for independent model review instructions and the merge gate.
