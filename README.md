@@ -36,7 +36,7 @@ The emulator looks for a CHIP-8 ROM at:
 roms/pong.ch8
 ```
 
-No copyrighted ROMs are included. If the file is missing, the current launcher creates a zero-filled placeholder file so the application can start; that placeholder is not a playable game. To run an actual program, place a CHIP-8 ROM that you are legally entitled to use at the expected path.
+No copyrighted ROMs are included. If the file is missing, the launcher prints an error and exits without creating a placeholder file. To run a program, place a CHIP-8 ROM that you are legally entitled to use at the expected path.
 
 ## Keyboard Mapping
 
