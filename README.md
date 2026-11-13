@@ -94,3 +94,15 @@ MIT. See [LICENSE](LICENSE).
 - [Company and team fit](COMPANY_FIT.md) · [README explanation draft](README_ADDENDUM_DRAFT.md)
 - [README quality checklist](README_QUALITY_CHECKLIST.md)
 - [Contributing](CONTRIBUTING.md) · [Agent instructions](AGENTS.md) · [Agent skills](SKILLS.md)
+
+## Understanding the project
+
+### In plain language
+
+A CHIP-8 emulator: a small virtual computer that loads a game program and runs its instructions on a simple screen and keypad.
+
+### Technical and research view
+
+The emulator loads a CHIP-8 program (ROM), interprets its instructions, updates virtual memory/registers/timers and draws pixels into a small window. The keypad maps physical keys to the virtual CHIP-8 keys.
+
+For future work, see [FEATURE_UPGRADE_PLAN.md](FEATURE_UPGRADE_PLAN.md), [ACTIVITY_LOG.md](ACTIVITY_LOG.md), [COMPANY_FIT.md](COMPANY_FIT.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
