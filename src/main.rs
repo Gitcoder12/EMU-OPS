@@ -3,17 +3,19 @@ use std::fs;
 use std::time::{Instant, Duration};
 use chip8_core::{Cpu, Memory, Graphics};
 
+fn load_rom(path: &str) -> Result<Vec<u8>, std::io::Error> {
+    fs::read(path)
+}
+
 fn main() {
-    let rom_path = "./roms/";
-    let rom_file = format!("{}pong.ch8", rom_path);
-    
-    let rom_data = match fs::read(&rom_file) {
+    let rom_file = "./roms/pong.ch8";
+    let rom_data = match load_rom(rom_file) {
         Ok(data) => data,
-        Err(_) => {
-            println!("No ROM found. Creating dummy roms/pong.ch8 – please add a real Chip-8 ROM");
-            fs::create_dir_all(rom_path).unwrap();
-            fs::write(&rom_file, &[0; 4096]).unwrap();
-            vec![0; 4096]
+        Err(error) => {
+            eprintln!(
+                "Unable to load ROM at {rom_file}: {error}. Add a CHIP-8 ROM you are legally entitled to use."
+            );
+            return;
         }
     };
 
@@ -80,5 +82,24 @@ fn main() {
             std::thread::sleep(frame_duration - now.duration_since(last_frame));
         }
         last_frame = Instant::now();
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::load_rom;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    #[test]
+    fn missing_rom_returns_an_error_without_creating_a_file() {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("system clock should be after Unix epoch")
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!("emu-ops-missing-{nonce}.ch8"));
+
+        assert!(load_rom(path.to_str().expect("temporary path should be UTF-8")).is_err());
+        assert!(!path.exists());
     }
 }
