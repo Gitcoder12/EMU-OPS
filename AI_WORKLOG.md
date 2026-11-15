@@ -49,3 +49,6 @@ The module is not referenced by the inspected entry point. Treat its save-state,
 3. Replace panicking I/O/window paths with error handling.
 4. Test core CPU, memory, graphics, timers, and input mapping.
 5. Integrate advanced features only behind tested interfaces.
+
+## PR head verification
+- PR #2 head CI: EMU-OPS Rust Checks completed successfully, including the configured workspace cargo check and cargo test jobs. GUI behaviour and ROM execution were not exercised.
