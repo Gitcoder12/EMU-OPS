@@ -227,3 +227,22 @@ This section supplements the maintainer-authored README above. The original text
 - Mark unverified sources, identifiers, metrics, benchmark results and external claims as unknown/unverified rather than guessing.
 - Verify setup, execution, tests and public claims against the exact current commit before using this repository in a job, research or academic application.
 - See [MODEL_AUDIT_ROUTER.md](MODEL_AUDIT_ROUTER.md) for independent model review instructions and the merge gate.
+
+---
+
+## Engineering Audit & Handover — 2026-11-17
+
+**Review scope:** default branch `main`; static inspection of `src/main.rs`. Runtime tests were not executed.
+
+### Confirmed findings
+- If `./roms/pong.ch8` is missing, `src/main.rs` creates a 4,096-byte all-zero file and loads it as the ROM. This is a placeholder, not a playable Pong ROM.
+- Directory creation, file writing, window creation, and framebuffer update use `unwrap()`; failures at these points can terminate the process with a panic.
+- The inspected entry point runs ten CPU instructions per rendered frame. Timer correctness and cycle scheduling need verification against the CHIP-8 specification and the core implementation.
+- The README describes AI-assisted tuning, telemetry, crash recovery, and self-healing as product capabilities, but this inspected entry point demonstrates a CHIP-8 prototype, not those complete systems.
+
+### Next actions
+1. Require a real user-supplied ROM or ship a legally distributable test ROM; never silently treat zero-filled memory as Pong.
+2. Replace user-facing panic paths with contextual error handling.
+3. Verify CPU/timer scheduling and add deterministic emulator tests before describing runtime optimization as implemented.
+
+**Verification status:** static entry-point inspection only; build, emulator behavior, and tests remain unverified.
