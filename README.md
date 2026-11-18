@@ -246,3 +246,25 @@ This section supplements the maintainer-authored README above. The original text
 3. Verify CPU/timer scheduling and add deterministic emulator tests before describing runtime optimization as implemented.
 
 **Verification status:** static entry-point inspection only; build, emulator behavior, and tests remain unverified.
+
+
+---
+
+## Branch Activity & Development History
+
+**Audit date:** 2026-11-18 · **Comparison base:** `main`
+
+| Branch | Difference from `main` | Observed work / changed paths |
+|---|---:|---|
+| `docs/portfolio-operating-kit-2026-11-13` | 6 ahead / 3 behind | Activity log, agent guidance, worklog, company-fit notes, feature plan, README support docs and skills; README changed substantially |
+| `docs/project-status-2026-11-16-emu-ops` | 1 / 1 | Project status snapshot: `PROJECT_STATUS.md` |
+| `docs/status-inventory-2026-11-16-v1` | 1 / 1 | Project status inventory: `PROJECT_STATUS.md` |
+| `fix/do-not-create-dummy-rom` | 2 / 3 | Emulator source changes in `src/main.rs` and README correction |
+
+### Open pull requests observed during this audit
+
+- [PR #4 — project status snapshot](https://github.com/Gitcoder12/EMU-OPS/pull/4)
+- [PR #3 — project status snapshot](https://github.com/Gitcoder12/EMU-OPS/pull/3)
+- [PR #2 — emulator handbook and agent skills](https://github.com/Gitcoder12/EMU-OPS/pull/2)
+
+**Review note:** The ROM-related branch changes emulator runtime code. Verify ROM loading behavior, error handling and tests before merging; never substitute dummy ROM content for real user-provided or legally obtained files. No branches have been merged or deleted by this documentation update.
