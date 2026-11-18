@@ -246,3 +246,10 @@ This section supplements the maintainer-authored README above. The original text
 3. Verify CPU/timer scheduling and add deterministic emulator tests before describing runtime optimization as implemented.
 
 **Verification status:** static entry-point inspection only; build, emulator behavior, and tests remain unverified.
+
+---
+
+## Examples Used
+- Recovering an emulator after a game crash
+- Comparing frame pacing before and after a configuration change
+- Rolling back a tuning profile that causes instability
