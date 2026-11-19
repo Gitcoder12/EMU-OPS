@@ -253,3 +253,27 @@ This section supplements the maintainer-authored README above. The original text
 - Recovering an emulator after a game crash
 - Comparing frame pacing before and after a configuration change
 - Rolling back a tuning profile that causes instability
+
+
+---
+
+## Comparison with Existing Open-Source Projects
+
+EMU OPS is documented as an experimental emulator prototype with an ambition to monitor instability and apply recovery/tuning. The following projects are mature emulator implementations and provide reference points for correctness and runtime architecture, not direct equivalents to the proposed self-healing layer.
+
+| Project | Established focus | Relationship to EMU OPS |
+|---|---|---|
+| [QEMU](https://github.com/qemu/qemu) | General-purpose machine emulator and virtualizer | A mature emulator/virtualization platform; EMU OPS is a much narrower experimental concept focused on monitoring and adaptive recovery around an emulator runtime. |
+| [PCSX2](https://github.com/PCSX2/pcsx2) | PlayStation 2 emulator | A mature platform-specific emulator with extensive compatibility and performance work; useful as an example of the depth required in a real emulator core. |
+| [mGBA](https://github.com/mgba-emu/mgba) | Game Boy Advance emulator and debugging tools | A compact but mature emulator with established testing/debugging practices; EMU OPS currently documents a prototype path rather than comparable compatibility. |
+
+### Where EMU OPS is different
+- **Recovery layer as the research focus:** the intended contribution is telemetry-informed rollback and configuration adaptation, not a new emulator instruction-set implementation alone.
+- **Per-game configuration learning:** the vision describes retaining known-good settings and avoiding configurations that previously caused instability.
+- **Runtime observability:** the README proposes monitoring frame pacing, CPU/GPU use, memory and thermal signals as inputs to controlled tuning.
+
+### Where established projects are stronger
+QEMU, PCSX2 and mGBA have mature emulation cores, compatibility suites, debugger ecosystems and large contributor communities. The current EMU OPS README lists several advanced capabilities as roadmap items; it does not demonstrate equivalent stability, compatibility or performance.
+
+### Evidence and safety requirements
+Keep automatic tuning bounded and reversible. Any recovery action must preserve user data, use explicit checkpoints and report the exact configuration change. Evaluate on reproducible workloads with baseline comparisons, crash/recovery rates and performance-regression metrics. Do not describe AI tuning or self-healing as operational until the code and tests demonstrate it. This is an architecture comparison, not an emulator-quality ranking.
